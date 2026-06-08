@@ -2,7 +2,13 @@ import Database from 'better-sqlite3';
 import { resolve } from 'path';
 import { mkdirSync, existsSync } from 'fs';
 
-const dataDir = resolve(process.cwd(), 'data');
+// Use /data in production (Digital Ocean volume mount), fallback to ./data locally
+const dataDir = process.env.DATABASE_PATH
+  ? resolve(process.env.DATABASE_PATH, '..')
+  : existsSync('/data')
+    ? '/data'
+    : resolve(process.cwd(), 'data');
+
 if (!existsSync(dataDir)) {
   mkdirSync(dataDir, { recursive: true });
 }
@@ -67,6 +73,9 @@ export function initializeDatabase() {
     CREATE INDEX IF NOT EXISTS idx_chat_history_timestamp ON chat_history(timestamp);
   `);
 }
+
+// Run migrations immediately at import time so tables exist before other modules load
+initializeDatabase();
 
 export function closeDatabase() {
   db.close();

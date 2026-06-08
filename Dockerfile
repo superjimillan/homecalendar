@@ -22,7 +22,7 @@ COPY --from=server-builder --chown=app:nodejs /app/server/dist ./dist
 COPY --from=server-builder --chown=app:nodejs /app/server/node_modules ./node_modules
 COPY --from=client-builder --chown=app:nodejs /app/client/dist ./client/dist
 
-RUN mkdir -p /app/data && chown app:nodejs /app/data
+RUN mkdir -p /app/data /data && chown app:nodejs /app/data /data
 
 USER app
 

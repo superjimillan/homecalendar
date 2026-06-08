@@ -12,7 +12,7 @@ console.log(`[ENV] OPENAI_API_KEY source: ${keySource}`);
 
 import express from 'express';
 import cors from 'cors';
-import { initializeDatabase, closeDatabase } from './db/database.js';
+import { closeDatabase } from './db/database.js';
 import eventsRouter from './routes/events.js';
 import gmailRouter from './routes/gmail.js';
 import chatRouter from './routes/chat.js';
@@ -39,8 +39,6 @@ app.get('*', (req, res) => {
 });
 
 import { isAuthenticated, syncEmails } from './services/gmail.js';
-
-initializeDatabase();
 
 const server = app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

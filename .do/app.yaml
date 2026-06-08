@@ -1,0 +1,25 @@
+name: home-calendar
+services:
+  - name: web
+    source_dir: /
+    dockerfile_path: Dockerfile
+    http_port: 3000
+    instance_count: 1
+    instance_size_slug: basic-xs
+    envs:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "3000"
+    health_check:
+      http_path: /
+      port: 3000
+      initial_delay_seconds: 10
+      period_seconds: 10
+      timeout_seconds: 5
+      success_threshold: 1
+      failure_threshold: 3
+    volumes:
+      - name: data
+        mount_path: /data
+        size_gb: 1
