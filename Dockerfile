@@ -18,7 +18,7 @@ WORKDIR /app
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 app
 
-COPY --from=server-builder --chown=app:nodejs /app/server/dist ./dist
+COPY --from=server-builder --chown=app:nodejs /app/server/dist ./server/dist
 COPY --from=server-builder --chown=app:nodejs /app/server/node_modules ./node_modules
 COPY --from=client-builder --chown=app:nodejs /app/client/dist ./client/dist
 
@@ -31,4 +31,4 @@ ENV PORT=3000
 
 EXPOSE 3000
 
-CMD ["node", "dist/index.js"]
+CMD ["node", "server/dist/index.js"]
